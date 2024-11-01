@@ -1,0 +1,20 @@
+name: 'Branch naming convention'
+description: 'Checks if the branch follows the naming convention.'
+
+inputs:
+  branch_name:
+    description: 'The branch name'
+    required: true
+
+outputs:
+  result:
+    description: 'whether the convention is being followed or not.'
+    value: ${{ steps.branch-naming-action.outputs.result }}
+
+runs:
+  using: "composite"
+  steps:
+    - name: Branch name check
+      id: branch-naming-action
+      run: ./scripts/branch-name.sh "${{ github.ref_name }}" ; echo "result=$?" >> "$GITHUB_OUTPUT"
+      shell: bash
